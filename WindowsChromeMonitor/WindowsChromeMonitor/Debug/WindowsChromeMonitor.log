@@ -1,2 +1,4 @@
-﻿  win32_utils.cpp
+﻿  CpuUtilization.cpp
+  win32_utils.cpp
+  Generating Code...
   WindowsChromeMonitor.vcxproj -> C:\Users\Rhydon\Desktop\windows-chrome-monitor\WindowsChromeMonitor\Debug\WindowsChromeMonitor.exe
