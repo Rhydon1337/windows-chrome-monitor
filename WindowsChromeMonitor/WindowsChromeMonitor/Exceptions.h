@@ -18,3 +18,6 @@ DEF_EXCEPTION(WindowsChromeMonitorException, std::runtime_error);
 DEF_EXCEPTION(Win32Exception, WindowsChromeMonitorException);
 DEF_EXCEPTION(CreateRunningProcessesSnapshotException, Win32Exception);
 DEF_EXCEPTION(Process32FirstException, Win32Exception);
+DEF_EXCEPTION(GetProcessTimesException, Win32Exception);
+DEF_EXCEPTION(GetSystemTimesException, Win32Exception);
+DEF_EXCEPTION(OpenProcessException, Win32Exception);
