@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsChromeMonitor", "WindowsChromeMonitor\WindowsChromeMonitor.vcxproj", "{CF317094-55FB-409C-9CE0-84DE9D1C1918}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF317094-55FB-409C-9CE0-84DE9D1C1918}.Debug|x86.ActiveCfg = Debug|Win32
+		{CF317094-55FB-409C-9CE0-84DE9D1C1918}.Debug|x86.Build.0 = Debug|Win32
+		{CF317094-55FB-409C-9CE0-84DE9D1C1918}.Release|x86.ActiveCfg = Release|Win32
+		{CF317094-55FB-409C-9CE0-84DE9D1C1918}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FE9D979-5745-4649-B9BF-B92484B095FC}
+	EndGlobalSection
+EndGlobal
