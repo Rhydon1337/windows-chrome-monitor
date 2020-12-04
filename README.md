@@ -1,14 +1,14 @@
 # windows-chrome-monitor
 ## TL;DR
-Monitor Chrome to know when movie or TV show ends and turns off the computer automatically
-Does it bother you that your pc is running all the night when you sleep after the movie/TV show you watched is over?
-Does it bother you to get out of bed to shutdown the pc when the movie/TV show you watched is over?
+Monitor Chrome to know when a movie or TV show ends and turns off the computer automatically
+Does it bother you that your PC is running all the night when you sleep after the movie/TV show you watched is over?
+Does it bother you to get out of bed to shutdown the PC when the movie/TV show you watched is over?
 
 ## How it works
-First, The program need to find chrome process which run the movie/TV show. It done by calculating 
-the cpu usage percentage for each chrome process instance over 5 minutes and then pick the one that spend the most cpu usage.
-Then, the program monitor to that process and when the process cpu usage is below the minimum for 5 minutes
-we can understand that the movie is over and we are ready to shutdown the computer.
+First, The program needs to find chrome process which runs the movie/TV show. It's done by calculating 
+the CPU usage percentage for each chrome process instance, over 5 minutes and then pick the one that spends the most CPU usage.
+Then, the program monitor to that process and when the process cpu usage is below the minimum of 5 minutes
+we can understand that the movie is over and we are ready to shut down the computer.
 
 Formula:
 Lets say wo took the first process and system overall usage examinations in time T1
