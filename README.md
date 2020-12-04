@@ -13,8 +13,8 @@ Then, the program monitor to that process and when the process cpu usage is belo
 we can understand that the movie is over and we are ready to shut down the computer.
 
 Formula:
-Lets say wo took the first process and system overall usage examinations in time T1
-And lets say wo took the second process and system overall usage examinations in time T2
+Lets say we took the first process and system overall usage examinations in time T1.
+And lets say we took the second process and system overall usage examinations in time T2.
 Now we can calculate the process cpu usage percentage between T1 - T2 by this formula:
 
 Percentage = (T2SystemOverallCpuTime - T1SystemOverallCpuTime) / (T2ProcessOverallCpuTime - T1ProcessOverallCpuTime) * 100
