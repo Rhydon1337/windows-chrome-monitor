@@ -57,8 +57,8 @@ int64_t to_int64(FILETIME file_time) {
  Now, we got the system overall cpu usage between these two examinations
  We will do the same for process cpu usage, two examinations and diff
 
- Lets say wo took the first process and system overall usage examinations in time T1
- And lets say wo took the second process and system overall usage examinations in time T2
+ Lets say we took the first process and system overall usage examinations in time T1
+ And lets say we took the second process and system overall usage examinations in time T2
  Now we can calculate the process cpu usage percentage between T1 - T2 by this formula:
 
  (T2SystemOverallCpuTime - T1SystemOverallCpuTime) / (T2ProcessOverallCpuTime - T1ProcessOverallCpuTime) * 100
