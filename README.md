@@ -6,7 +6,7 @@ Does it bother you that your PC is running all the night when you sleep after th
 
 Does it bother you to get out of bed to shutdown the PC when the movie/TV show you watched is over?
 
-This program it's your solution!
+This program it's the solution!
 ## How it works
 First, The program needs to find chrome process which runs the movie/TV show. It's done by calculating 
 the CPU usage percentage for each chrome process instance, over 5 minutes and then pick the one that spends the most CPU usage.
