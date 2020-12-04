@@ -4,9 +4,10 @@
 #include <vector>
 #include <string>
 
+using ProcessId = size_t;
+
 namespace win32_utils {
 
-	using ProcessId = size_t;
 	using AutoHandle = std::unique_ptr<std::remove_pointer_t<HANDLE>, decltype(&CloseHandle)>;
 
 	struct SystemTimes {

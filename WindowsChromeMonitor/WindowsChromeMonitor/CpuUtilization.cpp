@@ -1,14 +1,54 @@
 #include "CpuUtilization.h"
 
 #include <Windows.h>
-#include <chrono>
 #include <thread>
+#include <unordered_map>
+#include <algorithm>
 
-
+#include "Exceptions.h"
 #include "win32_utils.h"
 
-int64_t to_int64(FILETIME filetime) {
-	return static_cast<int64_t>(filetime.dwHighDateTime) << 32 | filetime.dwLowDateTime;
+constexpr auto SECONDS_TO_WAIT_BETWEEN_TIMES_EXAMINATIONS = std::chrono::seconds(1);
+
+ProcessId locate_process_by_cpu_utilizing_over_time(const std::string& process_name, std::chrono::seconds locate_time) {
+	std::unordered_map<ProcessId, size_t> process_with_max_cpu_usage_frequency_count;
+	
+	auto starting_time = std::chrono::system_clock::now();
+	do {
+		ProcessId process_id = locate_process_by_cpu_utilizing(process_name);
+		if (process_with_max_cpu_usage_frequency_count.find(process_id) == process_with_max_cpu_usage_frequency_count.end()) {
+			process_with_max_cpu_usage_frequency_count[process_id] = 0;
+		}
+		else {
+			process_with_max_cpu_usage_frequency_count[process_id] += 1;
+		}
+	} while (std::chrono::duration<double>(std::chrono::system_clock::now() - starting_time).count() < locate_time.count());
+	auto max_element = std::max_element(process_with_max_cpu_usage_frequency_count.begin(),
+		process_with_max_cpu_usage_frequency_count.end(),
+		[](const std::pair<ProcessId, size_t>& p1, const std::pair<ProcessId, size_t>& p2) {return p1.second < p2.second;});
+	return max_element->first;
+}
+
+ProcessId locate_process_by_cpu_utilizing(const std::string& process_name) {
+	auto processes_id = win32_utils::get_processes_pid_by_name(process_name);
+	ProcessCpuUsage max_process_cpu_usage = {0, 0};
+	for (const auto process_id : processes_id) {
+		try {
+			double process_utilization = get_process_cpu_utilization_percentage(process_id, SECONDS_TO_WAIT_BETWEEN_TIMES_EXAMINATIONS);
+			if (max_process_cpu_usage.cpu_usage < process_utilization) {
+				max_process_cpu_usage.cpu_usage = process_utilization;
+				max_process_cpu_usage.pid = process_id;
+			}
+		}
+		catch (const OpenProcessException&) {
+			// Occurs when process is died between finding the process id and when opening the actual handle (Race)
+		}
+	}
+	return max_process_cpu_usage.pid;
+}
+
+int64_t to_int64(FILETIME file_time) {
+	return static_cast<int64_t>(file_time.dwHighDateTime) << 32 | file_time.dwLowDateTime;
 }
 
 /*
@@ -25,7 +65,7 @@ int64_t to_int64(FILETIME filetime) {
 
  (T2SystemOverallCpuTime - T1SystemOverallCpuTime) / (T2ProcessOverallCpuTime - T1ProcessOverallCpuTime) * 100
  */
-double get_process_cpu_utilization_percentage(win32_utils::ProcessId pid, size_t seconds) {
+double get_process_cpu_utilization_percentage(ProcessId pid, std::chrono::seconds seconds) {
 	auto process_handle = win32_utils::open_process_by_id(pid, PROCESS_QUERY_INFORMATION);
 	win32_utils::ProcessTimes first_process_times = win32_utils::get_process_times(process_handle.get());
 	win32_utils::SystemTimes first_system_times = win32_utils::get_system_times();
@@ -37,14 +77,14 @@ double get_process_cpu_utilization_percentage(win32_utils::ProcessId pid, size_t
 		first_system_times.user_mode_time);
 
 	// Wait some seconds between each examinations
-	std::this_thread::sleep_for(std::chrono::seconds(seconds));
+	std::this_thread::sleep_for(seconds);
 
 	// Examine the T2 process and system time
 	win32_utils::ProcessTimes second_process_times = win32_utils::get_process_times(process_handle.get());
 	win32_utils::SystemTimes second_system_times = win32_utils::get_system_times();
 
 	/*
-	 Calculate the process cpu percentage by the formula mentioned above
+	 Calculate the process cpu usage percentage by the formula mentioned above
 	 */
 	uint64_t second_process_overall_cpu_usage = to_int64(second_process_times.kernel_mode_time) + to_int64(
 		second_process_times.user_mode_time);
@@ -55,22 +95,4 @@ double get_process_cpu_utilization_percentage(win32_utils::ProcessId pid, size_t
 	auto overall_process_diff = static_cast<double>(second_process_overall_cpu_usage - first_process_overall_cpu_usage);
 
 	return overall_process_diff / overall_system_diff * 100;
-}
-
-#include "Exceptions.h"
-
-win32_utils::ProcessId get_target_process_by_cpu_utilizing(const std::string& process_name) {
-	while (true) {
-		auto processes_id = win32_utils::get_processes_pid_by_name(process_name);
-		for (const auto process_id : processes_id) {
-			try {
-				double process_utilization = get_process_cpu_utilization_percentage(process_id, 1);
-				OutputDebugStringA(("pid: " + std::to_string(process_id) + " " + std::to_string(process_utilization) + "\n").c_str());
-			}
-			catch (const OpenProcessException&) {
-				// Occurs when process is died between finding all process and opening the actual handles
-			}
-		}
-		Sleep(500);
-	}
 }

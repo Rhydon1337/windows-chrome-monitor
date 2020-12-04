@@ -1,8 +1,18 @@
 #pragma once
 
+#include <chrono>
+
 #include "win32_utils.h"
 
-win32_utils::ProcessId get_target_process_by_cpu_utilizing(const std::string& process_name);
+
+struct ProcessCpuUsage {
+	double cpu_usage;
+	ProcessId pid;
+};
+
+ProcessId locate_process_by_cpu_utilizing(const std::string& process_name);
+
+ProcessId locate_process_by_cpu_utilizing_over_time(const std::string& process_name, std::chrono::seconds locate_time);
 
 /**
  * @brief get running process cpu percentage
@@ -10,4 +20,4 @@ win32_utils::ProcessId get_target_process_by_cpu_utilizing(const std::string& pr
  * @param[in] seconds - the time to wait between each examination 
  * @return the percentage
  */
-double get_process_cpu_utilization_percentage(win32_utils::ProcessId pid, size_t seconds);
+double get_process_cpu_utilization_percentage(ProcessId pid, std::chrono::seconds seconds);
