@@ -150,7 +150,14 @@
   <ItemGroup>
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="CpuUtilization.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="win32_utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WindowsChromeMonitor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="movie_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
