@@ -1,6 +1,6 @@
 # windows-chrome-monitor
 ## TL;DR
-Monitor Chrome to know when a movie or TV show ends and turns off the computer automatically
+Monitor Chrome in order to know when a movie or TV show ends and turns off the computer automatically
 
 Does it bother you that your PC is running all the night when you sleep after the movie/TV show you watched is over?
 
