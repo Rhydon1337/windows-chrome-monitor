@@ -21,3 +21,4 @@ DEF_EXCEPTION(Process32FirstException, Win32Exception);
 DEF_EXCEPTION(GetProcessTimesException, Win32Exception);
 DEF_EXCEPTION(GetSystemTimesException, Win32Exception);
 DEF_EXCEPTION(OpenProcessException, Win32Exception);
+DEF_EXCEPTION(SystemShutdownException, Win32Exception);

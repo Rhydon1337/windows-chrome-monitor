@@ -6,6 +6,8 @@
 
 using namespace win32_utils;
 
+const std::string_view SHUTDOWN_COMMAND = "shutdown.exe /s /f /t 0";
+
 PROCESSENTRY32 get_first_process_from_running_processes_snapshot(HANDLE snapshot) {
 	PROCESSENTRY32 pe32;
 	pe32.dwSize = sizeof(PROCESSENTRY32);
@@ -55,9 +57,16 @@ ProcessTimes win32_utils::get_process_times(HANDLE process_handle) {
 }
 
 SystemTimes win32_utils::get_system_times() {
-	SystemTimes system_times = { 0 };
+	SystemTimes system_times = {0};
 	if (!GetSystemTimes(&system_times.idle_time, &system_times.kernel_mode_time, &system_times.user_mode_time)) {
 		throw GetProcessTimesException("Get system times failed, error code: " + std::to_string(GetLastError()));
 	}
 	return system_times;
+}
+
+void win32_utils::shutdown() {
+	if (system(SHUTDOWN_COMMAND.data())) {
+		throw SystemShutdownException(
+			"Shutdown the system failed, error code: " + std::to_string(GetLastError()));
+	}
 }

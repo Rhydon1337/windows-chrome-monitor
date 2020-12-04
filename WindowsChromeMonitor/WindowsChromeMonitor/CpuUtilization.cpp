@@ -8,8 +8,6 @@
 #include "Exceptions.h"
 #include "win32_utils.h"
 
-constexpr auto SECONDS_TO_WAIT_BETWEEN_TIMES_EXAMINATIONS = std::chrono::seconds(1);
-
 ProcessId locate_process_by_cpu_utilizing_over_time(const std::string& process_name, std::chrono::seconds locate_time) {
 	std::unordered_map<ProcessId, size_t> process_with_max_cpu_usage_frequency_count;
 	
@@ -34,7 +32,7 @@ ProcessId locate_process_by_cpu_utilizing(const std::string& process_name) {
 	ProcessCpuUsage max_process_cpu_usage = {0, 0};
 	for (const auto process_id : processes_id) {
 		try {
-			double process_utilization = get_process_cpu_utilization_percentage(process_id, SECONDS_TO_WAIT_BETWEEN_TIMES_EXAMINATIONS);
+			double process_utilization = get_process_cpu_utilization_percentage(process_id);
 			if (max_process_cpu_usage.cpu_usage < process_utilization) {
 				max_process_cpu_usage.cpu_usage = process_utilization;
 				max_process_cpu_usage.pid = process_id;

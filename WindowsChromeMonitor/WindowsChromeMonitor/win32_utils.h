@@ -56,4 +56,9 @@ namespace win32_utils {
 	 * @return overall system cpu utilizing
 	 */
 	SystemTimes get_system_times();
+
+	/**
+	 * @brief shutdown the system
+	 */
+	void shutdown();
 }
